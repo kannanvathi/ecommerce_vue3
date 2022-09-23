@@ -5,7 +5,6 @@
         <div class="col-lg-3 mb-2" v-for="product in products" :key="product.id">
            <product-item
             :product="product"
-            :item="item"
             @add-cart="addCart"
            ></product-item>
         </div>
@@ -26,14 +25,17 @@ export default {
     data() {
         return {
             //products: [],
-            item: {}
+            call: true
         }
     },
     created(){
-        this.$store.dispatch('getProducts');
+       if(this.$store.state.isCalled){
+           this.getProducts();
+       }
     },
     computed: {
         products() {
+            console.log(this.$store.state.productList);
             return this.$store.state.productList;
         },
         cartItems() {
@@ -47,10 +49,11 @@ export default {
         }); */
     },
     methods: {
+        getProducts() {
+             this.$store.dispatch('getProducts');
+             this.$store.state.isCalled = false;
+        },
         addCart(id, item){
-            const product = this.products.find(product => product.id === id);
-            this.item = item;
-            console.log(this.item)
             this.$store.commit('cartTotal', id);
             this.$store.commit('cartCount');
             this.$store.commit('cartItems', id);

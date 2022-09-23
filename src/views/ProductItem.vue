@@ -14,14 +14,14 @@
                     </ul>
                 </div>
                 <div class="card-footer d-flex align-item-center">
-                    <button class="btn btn-primary me-2" @click="addCart(product.id)">Add Cart</button> <span class="badge bg-warning">Count: {{item.count}}</span>
+                    <button class="btn btn-primary me-2" @click="addCart(product.id)">Add Cart</button> <span class="badge bg-warning" v-if="product.count">Count: {{product.count}}</span>
                 </div>
             </div>
 </template>
 <script>
 export default {
     name: 'ProductItem',
-    props: ['product', 'item'],
+    props: ['product'],
 
     computed: {
        
@@ -38,8 +38,7 @@ export default {
     },
     methods: {
         addCart(id){
-            console.log(this.item)
-            this.$emit('addCart', id, this.item);
+            this.$emit('addCart', id);
         }
     }
 }
